@@ -1,4 +1,4 @@
-package com.its.kiosk;
+package com.its.kiosk.dto;
 
 
 import lombok.*;
@@ -10,8 +10,4 @@ public class MenuDTO {
     Long id;
     String menu;
     Long price;
-    String type;
-    int shot1;
-    int shot2;
-
 }
