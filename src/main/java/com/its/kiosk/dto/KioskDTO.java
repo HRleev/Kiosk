@@ -11,21 +11,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class KioskDTO {
     Long id;
-    String beverage;
-    String mobile;
+    String menu;
+    String temp;
     int shot;
     int price;
-    int coupon;
 
     public static KioskDTO toDTO(KioskEntity kioskEntity){
         KioskDTO kioskDTO=new KioskDTO();
 
         kioskDTO.setId(kioskEntity.getId());
-        kioskDTO.setBeverage(kioskEntity.getBeverage());
-        kioskDTO.setMobile(kioskEntity.getMobile());
+        kioskDTO.setTemp(kioskEntity.getTemp());
+        kioskDTO.setMenu(kioskEntity.getMenu());
         kioskDTO.setShot(kioskEntity.getShot());
         kioskDTO.setPrice(kioskEntity.getPrice());
-        kioskDTO.setCoupon(kioskDTO.getCoupon());
         return kioskDTO;
     }
 

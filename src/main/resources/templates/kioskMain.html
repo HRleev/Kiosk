@@ -5,49 +5,131 @@
   <title>Title</title>
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/jquery.js}"></script>
+  <style>
+      .menu-container {
+          width: 100%;
+
+      }
+
+      .menuDetail {
+          float: left;
+          text-align: center;
+          margin-bottom: 20px;
+          width: 430px;
+          height: 350px;
+      }
+
+      .orderHistory {
+          border: 1px #000000 solid;
+          height: 300px;
+          width: 900px;
+          margin-top: 850px;
+          margin-left: 70px;
+      }
+  </style>
 </head>
 <body>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  아메리카노
-</button>
-<a th:href="@{|/menuChoose?coffeeId=2|}">카페라떼</a>
-<a th:href="@{|/menuChoose?coffeeId=3|}">카라멜마끼아또</a>
-<a th:href="@{|/menuChoose?coffeeId=4|}">카푸치노</a>
+
+<div class="menu-container" th:each="coffee:${menu}">
+  <a class="menu" data-bs-toggle="modal" href="#exampleModal" th:data-menu="${coffee.menu}"
+     th:data-price="${coffee.price}"
+     data-th-price="${coffee.price}">
+    <div class="menuDetail">
+      <img th:src="@{/img/coffee.png}"></br>
+      <span th:text="${coffee.menu}"></span>
+      <span th:text="${coffee.price}"></span>
+    </div>
+  </a>
+</div>
+</br>
+<div class="footer-container">
+  <div class="orderHistory" id="orderHistory">
+    <span>주문내역</span>
+  </div>
+  <div class="totalPrice" id="totalPrice">
+    <span>토탈</span>
+  </div>
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">주문내역</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <img th:src="@{/img/coffee.png}">
-          <input type="radio" name="type">HOT
-          <input type="radio" name="type">ICE</br>
-          <input type="radio" name="shot">원샷+
-          <input type="radio" name="shot">투샷+
+        <img th:src="@{/img/coffee.png}">
+        <p id="coffee-m"></p>
+        <p id="coffee-p"></p>
+        <input type="hidden" id="menu" name="menu">
+        <input type="hidden" id="price" name="price">
+        <input type="radio" name="temp" value="HOT">HOT
+        <input type="radio" name="temp" value="ICE">ICE
+        </br>
+        <input type="radio" name="shot" value="500">원샷+
+        <input type="radio" name="shot" value="1000">투샷+
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">주문담기</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" onclick="orderDetail()" class="btn btn-primary">주문담기</button>
       </div>
     </div>
   </div>
 </div>
 
-
 </body>
 <script th:inline="javaScript">
-  const orderDetail = () => {
-      $.ajax({
-          type: "post",
-          url: "order",
-          data: {
-              ""
-          }
-      })
-  }
+    const orderDetail = () => {
+        const menu = document.getElementById("menu").value;
+        const price = document.getElementById("price").value;
+        var temp = $('input[name=temp]:checked').val();
+        var shot = $('input[name=shot]:checked').val();
+        const orderHistory = document.getElementById("orderHistory");
+        const totalPrice = document.getElementById("totalPrice");
+
+        $.ajax({
+            type: "post",
+            url: "/orderSave",
+            data: {
+                "menu": menu,
+                "price": price,
+                "temp": temp,
+                "shot": shot
+            },
+            dataType: "json",
+            success: function (result) {
+                if (result != null) {
+                    $('#exampleModal').modal('hide');
+                    $("input:radio[name='temp']").prop('checked', false);
+                    $("input:radio[name='shot']").prop('checked', false);
+                    var output = "";
+                    var output1 = "";
+                    output1 += result.price;
+                    output += "<span>" + result.menu + "&nbsp" + result.temp + "&nbsp" + result.shot + "</span>";
+                    output += "<button onclick=\"orderDelete(" + result.id + ")\">x</button>"
+                    orderHistory.innerHTML = output;
+                    totalPrice.innerHTML = output1;
+                }
+            }
+        });
+    }
+
+    const orderDelete = (id) => {
+        location.href = "/orderDelete/" + id;
+    }
+
+    $(document).on("click", ".menu", function () {
+        var menu = $(this).data("menu");
+        var price = $(this).data("price");
+
+        $(".modal-body #menu").val(menu);
+        $(".modal-body #price").val(price);
+        $(".modal-body #coffee-m").html(menu);
+        $(".modal-body #coffee-p").html(price);
+    })
 </script>
 </html>
