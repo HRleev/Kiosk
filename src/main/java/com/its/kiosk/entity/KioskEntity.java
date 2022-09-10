@@ -16,7 +16,7 @@ public class KioskEntity {
     Long id;
 
     @Column
-    String beverage;
+    String menu;
 
     @Column
     int shot;
@@ -25,19 +25,17 @@ public class KioskEntity {
     int price;
 
     @Column
-    int coupon;
+    String temp;
 
-    @Column
-    String mobile;
+
     public static KioskEntity toEntity(KioskDTO kioskDTO){
 
         KioskEntity kioskEntity=new KioskEntity();
 
-        kioskEntity.setBeverage(kioskDTO.getBeverage());
+        kioskEntity.setMenu(kioskDTO.getMenu());
         kioskEntity.setShot(kioskDTO.getShot());
+        kioskEntity.setTemp(kioskDTO.getTemp());
         kioskEntity.setPrice(kioskDTO.getPrice());
-        kioskEntity.setCoupon(kioskDTO.getPrice());
-        kioskEntity.setMobile(kioskDTO.getMobile());
 
         return kioskEntity;
 
