@@ -7,10 +7,11 @@
 	<title>Document</title>
 
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 	<script th:src="@{/js/bootstrap.bundle.min.js/}"></script>
 	<script th:src="@{/js/jquery.js}"></script>
 	<script th:src="@{/js/sweetalert2.min.js}"></script>
-
+	<script th:src="@{/js/main.js}"></script>
 	<link rel="stylesheet" href="css/common.css">
 	<link rel="stylesheet" href="css/main.css">
 </head>
@@ -34,7 +35,8 @@
 					</div>
 					<div class="item-wrap">
 						<div class="item" th:each="coffee:${menu}">
-							<a href="javaScript:;" th:onclick="selectOption([[${coffee.menu}]], [[${coffee.price}]], [[${coffee.menuFileName}]])">
+							<a href="javaScript:;" th:onclick="selectOption([[${coffee.menu}]],
+							[[${coffee.price}]], [[${coffee.menuFileName}]])">
 							<div class="img-wrap">
 								<img th:src="@{|/upload/${coffee.menuFileName}|}" alt="...">
 							</div>
@@ -62,9 +64,7 @@
 							<span></span> <!-- temp -->
 						</div>
 					</div>
-					<div class="price-wrap">
-						<span></span> <!-- price -->
-					</div>
+
 				</div>
 				<div class="total-price-wrap">
 					<h2>총 주문금액</h2>
@@ -78,29 +78,49 @@
 		</div>
 	</section>
 
-	<!-- Modal -->
+	<!-- 모달(아이템) -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">주문내역</h5>
+					<h5 class="modal-title" id="exampleModalLabel">옵션 선택</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<img class="modal-img" id="menuFileName" src="" alt="...">
-					<p id="coffee-m"></p>
-					<p id="coffee-p"></p>
-					<input type="hidden" id="menu" name="menu">
-					<input type="hidden" id="price" name="price">
-					<input type="radio" name="temp" value="HOT">HOT
-					<input type="radio" name="temp" value="ICE">ICE
-					</br>
-					<input type="radio" name="shot" value="500">원샷+
-					<input type="radio" name="shot" value="1000">투샷+
+					<div class="modal-item">
+						<div class="modal-img">
+							<img src="" id="menuFileName" alt="...">
+						</div>
+						<div class="menu-desc">
+							<h2 class="desc" id="coffee-m"></h2>
+							<input type="hidden" id="menu" name="menu">
+						</div>
+						<div class="menu-price desc">
+							<span id="coffee-p"></span>
+							<input type="hidden" id="price" name="price">
+							<span>원</span>
+						</div>
+						<div class="option-container">
+							<div class="option-shot option">
+								<h2>샷 추가</h2>
+								<div class="select">
+									<input type="radio" id="select" name="shot" value="500"><label for="select">One+</label>
+									<input type="radio" id="select2" name="shot" value="1000"><label for="select2">Two+</label>
+								</div>
+							</div>
+							<div class="option-temp option">
+								<h2>커피 온도</h2>
+								<div class="select1">
+									<input type="radio" id="select3" name="temp" value="HOT"><label for="select3">HOT</label>
+									<input type="radio" id="select4" name="temp" value="ICE"><label for="select4">ICE</label>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-					<button type="button" th:onclick="orderDetail()" class="btn btn-primary">주문담기</button>
+					<button type="button" class="btn btn-primary" onclick="orderDetail()">주문담기</button>
 				</div>
 			</div>
 		</div>
@@ -125,183 +145,4 @@
 		</div>
 	</div>
 </body>
-<script th:inline="javaScript">
-	const selectOption = (menu, price, menuFileName) => {
-		$(".modal-body #menu").val(menu);
-		$(".modal-body #price").val(price);
-		$(".modal-body #menuFileName").attr("src", /upload/ + menuFileName);
-		$(".modal-body #coffee-m").html(menu);
-		$(".modal-body #coffee-p").html(price);
-		$('#exampleModal').modal('show');
-	}
-
-	const coupon = () => {
-		var mobile = document.getElementById("mobile").value;
-
-
-		$.ajax({
-			type: "delete",
-			url: "/orderDelete",
-			data: {},
-			success: function () {
-				$.ajax({
-					type: "post",
-					url: "/coupon",
-					data: {
-						"mobile": mobile
-					},
-					dataType: "text",
-					success: function (result) {
-						if (result != null) {
-							$('#exampleModal1').modal('hide');
-							document.getElementById("mobile").value = null;
-							Swal.fire({
-								text: '주문이 완료 되었습니다.\n 적립된 쿠폰은' + result + '개입니다.',
-								showConfirmButton: false,
-								timer: 2000
-							}).then(function () {
-								location.href = "/";
-							});
-						}
-					}
-				});
-			}
-		});
-	}
-
-	const orderDetail = () => {
-		const menu = document.getElementById("menu").value;
-		const price = document.getElementById("price").value;
-		const orderItem = document.getElementById("order-item");
-		const wonText = document.getElementById("won-text");
-		var temp = $('input[name=temp]:checked').val();
-		var shot = $('input[name=shot]:checked').val();
-
-		$.ajax({
-			type: "post",
-			url: "/orderSave",
-			data: {
-				"menu": menu,
-				"price": price,
-				"temp": temp,
-				"shot": shot
-			},
-			dataType: "json",
-			success: function (result) {
-				if (result != null) {
-					$('#exampleModal').modal('hide');
-					$("input:radio[name='temp']").prop('checked', false);
-					$("input:radio[name='shot']").prop('checked', false);
-					var output = "";
-
-					for (let i in result) {
-
-						output += "<div class=\"img-wrap\">" +
-										"<img src=\"img/coffee.png\" alt=\"...\">" +
-										"</div>" +
-										"<div class=\"desc-wrap\">" +
-										"<div class=\"name-wrap\">" +
-										"<span>" + result[i].menu + "</span>" +
-										"</div>" +
-										"<div class=\"option-wrap\">";
-						if (result[i].shot == "500") {
-							output += "<span>" + "원샷" + "</span>";
-						} else {
-							output += "<span>" + "투샷" + "</span>";
-						}
-						output += "<span>" + result[i].temp + "</span>" +
-										"</div>" +
-										"</div>" +
-										"<div class=\"price-wrap\">" +
-										"<span>" + result[i].price + "</span>" +
-										"</div>" +
-										"<div class=\"delete-button-wrap\">" +
-										"<svg onclick=\"cartDelete(" + result[i].id + ")\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-x-circle-fill\" viewBox=\"0 0 16 16\">" +
-										"<path d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z\"/>" +
-										"</svg>" +
-										"</div>";
-					}
-					$.ajax({
-						type: "get",
-						url: "/totalPrice",
-						data: {},
-						dataType: "text",
-						success: function (str) {
-							wonText.innerHTML = str;
-							orderItem.innerHTML = output;
-						}
-					});
-				}
-			}
-		});
-	}
-
-	const cartDelete = (id) => {
-		const orderItem = document.getElementById("order-item");
-		const wonText = document.getElementById("won-text");
-
-		$.ajax({
-			type: "delete",
-			url: "/cartDelete",
-			data: {
-				"id": id
-			},
-			dataType: "json",
-			success: function (result) {
-				if (result != null) {
-					var output = "";
-
-					for (let i in result) {
-						output += "<div class=\"img-wrap\">" +
-										"<img src=\"img/coffee.png\" alt=\"...\">" +
-										"</div>" +
-										"<div class=\"desc-wrap\">" +
-										"<div class=\"name-wrap\">" +
-										"<span>" + result[i].menu + "</span>" +
-										"</div>" +
-										"<div class=\"option-wrap\">";
-						if (result[i].shot == "500") {
-							output += "<span>" + "원샷" + "</span>";
-						} else {
-							output += "<span>" + "투샷" + "</span>";
-						}
-						output += "<span>" + result[i].temp + "</span>" +
-										"</div>" +
-										"</div>" +
-										"<div class=\"price-wrap\">" +
-										"<span>" + result[i].price + "</span>" +
-										"</div>" +
-										"<div class=\"delete-button-wrap\">" +
-										"<svg onclick=\"orderDelete(" + result[i].id + ")\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-x-circle-fill\" viewBox=\"0 0 16 16\">" +
-										"<path d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z\"/>" +
-										"</svg>" +
-										"</div>";
-					}
-					$.ajax({
-						type: "get",
-						url: "/totalPrice",
-						data: {},
-						dataType: "text",
-						success: function (str) {
-
-							wonText.innerHTML = str;
-							orderItem.innerHTML = output;
-						}
-					});
-				}
-			}
-		});
-	}
-
-	$(document).on("click", ".menu", function () {
-		var menu = $(this).data("menu");
-		var price = $(this).data("price");
-		var menuFileName = $(this).data("menuFileName");
-		$(".modal-body #menu").val(menu);
-		$(".modal-body #price").val(price);
-		$(".modal-body #menuFileName").attr("src", /upload/ + menuFileName);
-		$(".modal-body #coffee-m").html(menu);
-		$(".modal-body #coffee-p").html(price);
-	});
-</script>
 </html>
