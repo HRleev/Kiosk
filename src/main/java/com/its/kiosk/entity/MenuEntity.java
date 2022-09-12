@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "Beverage_Table")
+@Table(name = "Menu_Table")
 public class MenuEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +20,6 @@ public class MenuEntity {
     @Column
     private int price;
 
-
+    @Column
+    String menuFileName;
 }
