@@ -1,0 +1,91 @@
+.main-container {
+	width: 720px;
+	max-width: 720px;
+	height: auto;
+	margin: 0 auto;
+	padding-top: 10px;
+	display: flex;
+	flex-direction: column;
+	background-color: lightblue;
+	border-radius: 16px;
+}
+.main-container > div:not(:first-child) {margin-top: 20px;}
+
+.content-header {display: flex; flex-direction: row; padding: 20px;}
+.content-header .title-wrap, .content-header .icon-wrap {display: inline-block; position: relative;}
+.content-header .title-wrap {margin-left: 300px;}
+.content-header .title-wrap span {position: relative; color: #222; font-size: 1.5rem; font-weight: 600;}
+.content-header .icon-wrap {margin-left: auto;}
+.content-header .icon-wrap .bi-cart3 {position: relative; width: 24px; height: 24px;}
+
+.content-main {
+	width: 560px;
+	min-width: 560px;
+	height: auto;
+	margin: 0 auto;
+	background-color: #584632;
+	border-radius: 8px;
+}
+.item-container {display: flex; flex-direction: column; padding: 20px 46px 0;}
+.item-container .title-wrap span {position: relative; color: #fff; font-size: 1.125rem; letter-spacing: 0.05rem; font-weight: 500; font-family: inherit;}
+
+.item-wrap {display: flex; padding: 0 20px 20px; overflow: hidden; width: 100%; height: auto; text-overflow: ellipsis; white-space: nowrap; flex-wrap: wrap;}
+.item-wrap .item:nth-child(even) {margin-left: 20px;}
+
+.item {
+	position: relative;
+	display: inline-block;
+	width: 200px;
+	min-width: 200px;
+	height: 200px;
+	min-height: 200px;
+	margin-top: 20px;
+	background-color: #fff;
+	border-radius: 8px;
+	text-align: center;
+	justify-content: center;
+	cursor: pointer;
+}
+.item:hover {opacity: 0.5; transition: 0.2s ease;}
+.item > div:not(:first-child) {margin-top: 16px;}
+.item .img-wrap img {width: 100%; height: 120px;}
+.modal-body {height: 600px;}
+.modal-img {width: 100%; height: 200px;}
+.item .desc-wrap {margin-top: 20px;}
+.item .desc-wrap span {font-weight: 600; font-size: 1em;}
+.item span {position: relative; color: #222; font-family: inherit; font-size: 0.875em; text-overflow: ellipsis; white-space: nowrap; letter-spacing: 0.05rem;}
+
+.order-history {
+	display: flex; 
+	flex-direction: column; 
+	background-color: lightsalmon; 
+	width: 100%; 
+	padding: 20px 20px 0;
+}
+.order-history > div:not(:last-child) {border-bottom: 1px solid #e5e5e5;}
+
+.order-history .title {position: relative; font-size: 1.125rem; padding: 10px; font-weight: 600; font-family: inherit;}
+.order-history .order-item {
+	display: flex; 
+	flex-direction: row; 
+	width: 100%; 
+	padding: 10px;
+}
+.order-history .total-price-wrap {display: flex; flex-direction: row; margin-left: auto; padding: 20px;}
+.total-price-wrap h2 {margin-right: 60px;}
+.total-price-wrap > span {margin-right: 10px;}
+.total-price-wrap .won-text {margin-right: 0;}
+.order-item span {position: relative; font-size: 0.875em; color: #222;}
+.order-item .img-wrap img {position: relative; width: 75px; height: 75px;}
+.order-item .desc-wrap {width: 400px; padding: 15px;}
+.desc-wrap > div:not(:first-child) {padding-top: 5px;}
+.desc-wrap .name-wrap span {font-weight: 600;}
+.option-wrap > span:not(:first-child) {margin-left: 10px;}
+.order-item .price-wrap {padding: 28px;}
+.order-item .delete-button-wrap {padding: 28px;}
+.delete-button-wrap svg {position: relative; cursor: pointer;}
+.delete-button-wrap svg:hover {opacity: 0.5; transition: 0.2s ease;}
+
+.button-wrap {display: inline-block; text-align: center; margin-bottom: 20px;}
+.button-wrap button {border: none; background-color: #584632; color: #fff; padding: 18px 180px; font-size: 1.25rem; border-radius: 60px;}
+.button-wrap button:hover {opacity: 0.5; transition: 0.2s ease;}

@@ -1,0 +1,25 @@
+
+.main-container {
+	width: 720px;
+	max-width: 720px;
+	height: 940px;
+	max-height: 940px;
+	background-color: lightblue;
+	margin: 0 auto;
+	padding-top: 60px;
+	display: flex;
+	flex-direction: column;
+	-webkit-box-align: center;
+}
+.main-container > div:not(:first-child) {padding-top: 10px;}
+
+.main-container .img-wrap {margin: 0 auto; padding: 60px; background-color: #fff; width: 256px; height: 256px; justify-content: center; display: inline-block; border: none; outline: none; border-radius: 50%;}
+.main-container .img-wrap img {position: relative; width: 128px; height: 128px;}
+.main-container .text-wrap {margin: 0 auto; padding: 12px;}
+.main-container .text-wrap h2 {position: relative; font-size: 2.5rem; color: #fff; font-weight: 600; font-family: inherit; display: block;}
+.main-container .small-text-wrap {margin: 0 auto; padding: 12px;}
+.main-container .small-text-wrap span {position: relative; margin: 0 auto; color: #aaa; font-weight: 500; font-size: 1.25rem; display: block;}
+.main-container .button-wrap {margin: 240px auto 0; padding: 12px;}
+.main-container .button-wrap button {border: none; outline: none; background-color: #cf8627; color: #fff; padding: 24px 120px; border-radius: 64px; font-weight: 600; font-size: 1.5rem; box-shadow: 0 0.625rem 0.613rem #6c242426;}
+.main-container .button-wrap button:hover {opacity: 0.5; transition: 0.2s ease;}
+

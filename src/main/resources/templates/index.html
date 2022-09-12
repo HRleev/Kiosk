@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <section>
+    <div class="main-container">
+      <div class="img-wrap">
+        <img src="img/coffee_main.png" alt="...">
+      </div>
+      <div class="text-wrap">
+        <h2>COFFEE CAFE</h2>
+      </div>
+      <div class="small-text-wrap">
+        <span>Delicious Coffee & Latte</span>
+      </div>
+      <div class="button-wrap">
+        <button type="button" class="start-btn" onclick="mainPage()">시작하기</button>
+      </div>
+    </div>
+  </section>
+</body>
+<script>
+  const mainPage = () => {
+      location.href = "/kioskMain";
+  }
+</script>
+</html>
